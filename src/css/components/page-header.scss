@@ -1,0 +1,50 @@
+.page-header {
+	background-color: #282d30;
+	padding-top: 80px;
+}
+
+.page-header__logo {
+	@include size(297px, 63px);
+	position: absolute;
+	top: 13px;
+	left: 2%;
+}
+
+.page-header__btn {
+	position: absolute;
+	top: -47px;
+	right: 5%;
+	@include size(18px, 16px);
+	text-decoration: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+	&--open {
+		background: url('../img/icon-menu-open.svg') no-repeat;
+	}
+
+	&--close {
+		background: url('../img/icon-menu-close.svg') no-repeat;
+	}
+
+}
+
+
+@media ($wide-widths) {
+
+	.page-header {
+		padding-top: 101px;
+	}
+
+	.page-header__logo {
+		top: 0;
+		left: 10%;
+		@include size(494px, 104px);
+	}
+
+	.page-header__btn {
+		display: none;
+	}
+
+}

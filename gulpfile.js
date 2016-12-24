@@ -6,6 +6,8 @@ var gulp = require('gulp'),
 	plumber = require('gulp-plumber'),
 	uglify = require('gulp-uglify'),
 	sass = require('gulp-sass'),
+	sassGlob = require('gulp-sass-glob'),
+	cssimport = require("gulp-cssimport"),
 	rename = require('gulp-rename'),
 	sourcemaps = require('gulp-sourcemaps'),
 	rigger = require('gulp-rigger'),
@@ -21,24 +23,23 @@ var path = {
 		html: 'build/',
 		js: 'build/js/',
 		css: 'build/css/',
-		fancybox: 'build/fancybox',
 		img: 'build/img/',
 		fonts: 'build/fonts/'
 	},
 	src: { //Пути откуда брать исходники
 		html: 'src/*.html', //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
-		js: 'src/js/*.js',//В стилях и скриптах нам понадобятся только main файлы
-		style: 'src/sass/style.scss',
-		css: 'src/css/*.css',
-		fancybox: 'src/fancybox/**/*.*',
+		js: 'src/js/*.js',
+		sass: 'src/css/**/*.scss',
+		sassEntry: 'src/css/base.scss',
 		img: 'src/img/**/*.*', //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
 		fonts: 'src/fonts/**/*.*'
 	},
 	watch: { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
 		html: 'src/**/*.html',
 		js: 'src/js/**/*.js',
-		style: 'src/sass/**/*.scss',
-		css: 'src/css/*.css',
+		sass: 'src/css/**/*.scss',
+		sassEntry: 'src/css/base.scss',
+		libs: 'src/css/libs/*.css',
 		img: 'src/img/**/*.*',
 		fonts: 'src/fonts/**/*.*'
 	},
@@ -46,48 +47,41 @@ var path = {
 };
 
 var config = {
-		server: {
-				baseDir: "./build"
-		},
-		tunnel: true,
-		host: 'localhost',
-		port: 9000,
-		logPrefix: "Orange"
+    server: {
+        baseDir: "./build"
+    },
+    tunnel: true,
+    host: 'localhost',
+    port: 9000,
+    logPrefix: "Orange"
 };
 
 gulp.task('html:build', function () {
-		gulp.src(path.src.html) //Выберем файлы по нужному пути
-				.pipe(rigger()) //Прогоним через rigger
-				.pipe(gulp.dest(path.build.html)) //Выплюнем их в папку build
-				.pipe(reload({stream: true})); //И перезагрузим наш сервер для обновлений
+    gulp.src(path.src.html) //Выберем файлы по нужному пути
+        .pipe(rigger()) //Прогоним через rigger
+        .pipe(gulp.dest(path.build.html)) //Выплюнем их в папку build
+        .pipe(reload({stream: true})); //И перезагрузим наш сервер для обновлений
 });
 
 gulp.task('js:build', function () {
-		gulp.src(path.src.js) //Найдем наш main файл
+    gulp.src(path.src.js) //Найдем наш main файл
 				.pipe(plumber())
-				.pipe(rigger()) //Прогоним через rigger
-				.pipe(uglify()) //Сожмем наш js
-				.pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
-				.pipe(reload({stream: true})); //И перезагрузим сервер
+        .pipe(rigger()) //Прогоним через rigger
+        .pipe(uglify()) //Сожмем наш js
+        .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
+        .pipe(reload({stream: true})); //И перезагрузим сервер
 });
 
 gulp.task('style:build', function () {
-		gulp.src(path.src.style) //Выберем наш main.scss
+    gulp.src(path.src.sassEntry) //Выберем наш main.scss
 				.pipe(plumber())
-				.pipe(sass()) //Скомпилируем
-				.pipe(prefixer()) //Добавим вендорные префиксы
-				.pipe(cssmin()) //Сожмем
-				.pipe(rename('style.min.css'))
-				.pipe(gulp.dest(path.build.css)) //И в build
-				.pipe(reload({stream: true}));
-});
-
-//остальной css, который уже был в папке css - копируем в build
-
-gulp.task('css:build', function() {
-		gulp.src(path.src.css)
-				.pipe(cssmin())
-				.pipe(gulp.dest(path.build.css))
+				.pipe(sassGlob())
+        .pipe(sass()) //Скомпилируем
+				.pipe(cssimport({extensions: ["css"]}))
+        .pipe(prefixer()) //Добавим вендорные префиксы
+				.pipe(rename('style.css'))
+        .pipe(gulp.dest(path.build.css)) //И в build
+        .pipe(reload({stream: true}));
 });
 
 gulp.task('image:build', function() {
@@ -105,52 +99,48 @@ gulp.task('image:build', function() {
 })
 
 gulp.task('fonts:build', function() {
-		gulp.src(path.src.fonts)
-				.pipe(gulp.dest(path.build.fonts))
-});
-
-gulp.task('fancybox:build', function() {
-		gulp.src(path.src.fancybox)
-				.pipe(gulp.dest(path.build.fancybox))
+    gulp.src(path.src.fonts)
+        .pipe(gulp.dest(path.build.fonts))
 });
 
 gulp.task('build', [
-		'html:build',
-		'js:build',
-		'fancybox:build',
-		'style:build',
-		'css:build',
-		'fonts:build',
-		'image:build'
+    'html:build',
+    'js:build',
+    'style:build',
+    'fonts:build',
+    'image:build'
 ]);
 
 gulp.task('watch', function(){
-		watch([path.watch.html], function(event, cb) {
-				gulp.start('html:build');
-		});
-		watch([path.watch.style], function(event, cb) {
+    watch([path.watch.html], function(event, cb) {
+        gulp.start('html:build');
+    });
+    watch([path.watch.sass], function(event, cb) {
+        gulp.start('style:build');
+    });
+		watch([path.watch.sassEntry], function(event, cb) {
 				gulp.start('style:build');
 		});
-		watch([path.watch.css], function(event, cb) {
-				gulp.start('css:build');
+		watch([path.watch.libs], function(event, cb) {
+				gulp.start('style:build');
 		});
-		watch([path.watch.js], function(event, cb) {
-				gulp.start('js:build');
-		});
-		watch([path.watch.img], function(event, cb) {
-				gulp.start('image:build');
-		});
-		watch([path.watch.fonts], function(event, cb) {
-				gulp.start('fonts:build');
-		});
+    watch([path.watch.js], function(event, cb) {
+        gulp.start('js:build');
+    });
+    watch([path.watch.img], function(event, cb) {
+        gulp.start('image:build');
+    });
+    watch([path.watch.fonts], function(event, cb) {
+        gulp.start('fonts:build');
+    });
 });
 
 gulp.task('webserver', function () {
-		browserSync(config);
+    browserSync(config);
 });
 
 gulp.task('clean', function (cb) {
-		rimraf(path.clean, cb);
+    rimraf(path.clean, cb);
 });
 
 gulp.task('default', ['build', 'webserver', 'watch']);

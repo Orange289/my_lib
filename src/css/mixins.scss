@@ -19,7 +19,7 @@
     url($u2) format('woff2');
 }
 
-@mixin font-param($s, $l, $w, $c) {
+@mixin font-param($s, $l, $w, $c: #000000) {
   font-size: $s;
   line-height: $l;
   font-weight: $w;
