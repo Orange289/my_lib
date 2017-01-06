@@ -13,13 +13,16 @@ var gulp = require('gulp'),
 	rigger = require('gulp-rigger'),
 	cssmin = require('gulp-csso'),
 	imagemin = require('gulp-imagemin'),
+	svgSprite = require('gulp-svg-sprites'),
+	svgmin = require('gulp-svgmin'),
+	svgstore = require('gulp-svgstore'),
 	pngquant = require('imagemin-pngquant'),
 	browserSync = require('browser-sync'),
 	rimraf = require('rimraf'),
 	reload = browserSync.reload;
 
 var path = {
-	build: { //Тут мы укажем куда складывать готовые после сборки файлы
+	build: { //готовые после сборки файлы
 		html: 'build/',
 		js: 'build/js/',
 		css: 'build/css/',
@@ -27,20 +30,22 @@ var path = {
 		fonts: 'build/fonts/'
 	},
 	src: { //Пути откуда брать исходники
-		html: 'src/*.html', //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
+		html: 'src/*.html',
 		js: 'src/js/*.js',
 		sass: 'src/css/**/*.scss',
 		sassEntry: 'src/css/base.scss',
-		img: 'src/img/**/*.*', //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
+		img: 'src/img/**/*.*',
+		svg: 'src/img/icons/*.svg',
 		fonts: 'src/fonts/**/*.*'
 	},
-	watch: { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
+	watch: { //за изменением каких файлов наблюдать
 		html: 'src/**/*.html',
 		js: 'src/js/**/*.js',
 		sass: 'src/css/**/*.scss',
 		sassEntry: 'src/css/base.scss',
 		libs: 'src/css/libs/*.css',
 		img: 'src/img/**/*.*',
+		svg: 'src/img/icons/*.svg',
 		fonts: 'src/fonts/**/*.*'
 	},
 	clean: './build'
@@ -60,11 +65,11 @@ gulp.task('html:build', function () {
     gulp.src(path.src.html) //Выберем файлы по нужному пути
         .pipe(rigger()) //Прогоним через rigger
         .pipe(gulp.dest(path.build.html)) //Выплюнем их в папку build
-        .pipe(reload({stream: true})); //И перезагрузим наш сервер для обновлений
+        .pipe(reload({stream: true})); //И перезагрузим сервер для обновлений
 });
 
 gulp.task('js:build', function () {
-    gulp.src(path.src.js) //Найдем наш main файл
+    gulp.src(path.src.js) //Найдем main файл
 				.pipe(plumber())
         .pipe(rigger()) //Прогоним через rigger
         .pipe(uglify()) //Сожмем наш js
@@ -98,6 +103,20 @@ gulp.task('image:build', function() {
 
 })
 
+//svg sprite
+
+gulp.task('svgsprite', function() {
+	return gulp.src(path.src.svg)
+		.pipe(svgstore({
+			inlineSvg: true
+		}))
+		.pipe(svgmin())
+		.pipe(rename('sprite.svg'))
+		.pipe(gulp.dest(path.build.img));
+});
+
+//
+
 gulp.task('fonts:build', function() {
     gulp.src(path.src.fonts)
         .pipe(gulp.dest(path.build.fonts))
@@ -108,7 +127,8 @@ gulp.task('build', [
     'js:build',
     'style:build',
     'fonts:build',
-    'image:build'
+    'image:build',
+		'svgsprite'
 ]);
 
 gulp.task('watch', function(){
@@ -130,6 +150,9 @@ gulp.task('watch', function(){
     watch([path.watch.img], function(event, cb) {
         gulp.start('image:build');
     });
+		watch([path.watch.svg], function(event, cb) {
+				gulp.start('svgsprite');
+		});
     watch([path.watch.fonts], function(event, cb) {
         gulp.start('fonts:build');
     });
