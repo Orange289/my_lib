@@ -1,25 +1,37 @@
 'use strict';
 
+// plugins for development
 var gulp = require('gulp'),
-	watch = require('gulp-watch'),
-	prefixer = require('gulp-autoprefixer'),
-	plumber = require('gulp-plumber'),
-	uglify = require('gulp-uglify'),
-	sass = require('gulp-sass'),
-	sassGlob = require('gulp-sass-glob'),
-	cssimport = require("gulp-cssimport"),
-	rename = require('gulp-rename'),
-	sourcemaps = require('gulp-sourcemaps'),
-	rigger = require('gulp-rigger'),
-	cssmin = require('gulp-csso'),
-	imagemin = require('gulp-imagemin'),
-	svgSprite = require('gulp-svg-sprites'),
-	svgmin = require('gulp-svgmin'),
-	svgstore = require('gulp-svgstore'),
-	pngquant = require('imagemin-pngquant'),
-	browserSync = require('browser-sync'),
-	rimraf = require('rimraf'),
-	reload = browserSync.reload;
+		rimraf = require('rimraf'),
+		jade = require('gulp-jade'),
+		sass = require('gulp-sass'),
+		prefixer = require('gulp-autoprefixer'),
+		plumber = require('gulp-plumber'),
+
+// plugins for build
+		uglify = require('gulp-uglify'),
+		cssmin = require('gulp-csso'),
+		imagemin = require('gulp-imagemin'),
+		pngquant = require('imagemin-pngquant'),
+		sassGlob = require('gulp-sass-glob'),
+		cssimport = require("gulp-cssimport"),
+
+//plugins for svg
+		svgSprite = require('gulp-svg-sprite'),
+		svgmin = require('gulp-svgmin'),
+		svgstore = require('gulp-svgstore'),
+
+//watching
+		watch = require('gulp-watch'),
+
+//others
+		rename = require('gulp-rename'),
+		sourcemaps = require('gulp-sourcemaps'),
+		rigger = require('gulp-rigger'),
+		browserSync = require('browser-sync').create(),
+		reload = browserSync.reload;
+
+//paths
 
 var path = {
 	build: { //готовые после сборки файлы
@@ -30,7 +42,7 @@ var path = {
 		fonts: 'build/fonts/'
 	},
 	src: { //Пути откуда брать исходники
-		html: 'src/*.html',
+		jade: 'src/jade/*.jade',
 		js: 'src/js/*.js',
 		sass: 'src/css/**/*.scss',
 		sassEntry: 'src/css/base.scss',
@@ -39,7 +51,7 @@ var path = {
 		fonts: 'src/fonts/**/*.*'
 	},
 	watch: { //за изменением каких файлов наблюдать
-		html: 'src/**/*.html',
+		jade: 'src/jade/*.jade',
 		js: 'src/js/**/*.js',
 		sass: 'src/css/**/*.scss',
 		sassEntry: 'src/css/base.scss',
@@ -61,11 +73,21 @@ var config = {
     logPrefix: "Orange"
 };
 
+//Compiling
+
+gulp.task('jade', function () {
+	gulp.src(path.src.jade)
+		.pipe(plumber())
+		.pipe(jade({pretty: true}))
+		.pipe(gulp.dest(path.build.html))
+		.pipe(browserSync.stream());
+});
+
 gulp.task('html:build', function () {
     gulp.src(path.src.html) //Выберем файлы по нужному пути
         .pipe(rigger()) //Прогоним через rigger
         .pipe(gulp.dest(path.build.html)) //Выплюнем их в папку build
-        .pipe(reload({stream: true})); //И перезагрузим сервер для обновлений
+				.pipe(browserSync.stream());
 });
 
 gulp.task('js:build', function () {
@@ -74,7 +96,7 @@ gulp.task('js:build', function () {
         .pipe(rigger()) //Прогоним через rigger
         .pipe(uglify()) //Сожмем наш js
         .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
-        .pipe(reload({stream: true})); //И перезагрузим сервер
+				.pipe(browserSync.stream());
 });
 
 gulp.task('style:build', function () {
@@ -86,7 +108,7 @@ gulp.task('style:build', function () {
         .pipe(prefixer()) //Добавим вендорные префиксы
 				.pipe(rename('style.css'))
         .pipe(gulp.dest(path.build.css)) //И в build
-        .pipe(reload({stream: true}));
+				.pipe(browserSync.stream());
 });
 
 gulp.task('image:build', function() {
@@ -100,7 +122,7 @@ gulp.task('image:build', function() {
 									interlaced: true
 							}))
 			.pipe(gulp.dest(path.build.img))
-
+			.pipe(browserSync.stream());
 })
 
 //svg sprite
@@ -132,7 +154,7 @@ gulp.task('build', [
 ]);
 
 gulp.task('watch', function(){
-    watch([path.watch.html], function(event, cb) {
+    watch([path.watch.jade], function(event, cb) {
         gulp.start('html:build');
     });
     watch([path.watch.sass], function(event, cb) {
