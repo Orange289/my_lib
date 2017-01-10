@@ -42,7 +42,7 @@ var path = {
 		fonts: 'build/fonts/'
 	},
 	src: { //Пути откуда брать исходники
-		jade: 'src/jade/*.jade',
+		jade: 'src/jade/',
 		js: 'src/js/*.js',
 		sass: 'src/css/**/*.scss',
 		sassEntry: 'src/css/base.scss',
@@ -76,7 +76,7 @@ var config = {
 //Compiling
 
 gulp.task('jade', function () {
-	gulp.src(path.src.jade)
+	gulp.src([path.src.jade + '/*.jade', '!' + path.src.jade + '/_*.jade'])
 		.pipe(plumber())
 		.pipe(jade({pretty: true}))
 		.pipe(gulp.dest(path.build.html))
