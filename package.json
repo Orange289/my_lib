@@ -1,5 +1,5 @@
 {
-  "name": "Start template",
+  "name": "My_lib",
   "version": "0.1.0",
   "private": true,
   "description": "Шаблон для старта проекта + некоторые компоненты, библиотеки, миксины",
