@@ -29,7 +29,7 @@ var gulp = require('gulp'),
 		rename = require('gulp-rename'),
 		sourcemaps = require('gulp-sourcemaps'),
 		rigger = require('gulp-rigger'),
-		browserSync = require('browser-sync').create(),
+		browserSync = require('browser-sync'),
 		reload = browserSync.reload;
 
 //paths
