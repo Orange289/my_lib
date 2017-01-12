@@ -1,8 +1,8 @@
 {
-  "name": "My_library",
+  "name": "Start template",
   "version": "0.1.0",
   "private": true,
-  "description": "Библиотека CSS-компонентов",
+  "description": "Шаблон для старта проекта + некоторые компоненты, библиотеки, миксины",
   "author": "Анна Сухопарова",
   "repository": {
     "type": "git",
@@ -16,6 +16,8 @@
     "browser-sync": "^2.18.5",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
+	"gulp-cheerio": "^0.6.2",
+    "gulp-cssfont64": "0.0.1",
     "gulp-cssimport": "^5.0.0",
     "gulp-csso": "^2.0.0",
     "gulp-imagemin": "^3.1.1",

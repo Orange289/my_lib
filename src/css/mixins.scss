@@ -1,43 +1,43 @@
 @mixin clearfix {
-  &::after {
-    content: '';
-    display: table;
-    clear: both;
-  }
+	&::after {
+		content: '';
+		display: table;
+		clear: both;
+	}
 }
 
 @mixin size($width, $height: $width) {
-  width: $width;
-  height: $height;
+	width: $width;
+	height: $height;
 }
 
 @mixin font-setup($f, $l, $u1, $u2) {
-  font-family: $f;
-  src:
-    local($l),
-    url($u1) format('woff'),
-    url($u2) format('woff2');
+	font-family: $f;
+	src:
+	local($l),
+	url($u1) format('woff'),
+	url($u2) format('woff2');
 }
 
 @mixin font-param($s, $l, $w, $c: #000000) {
-  font-size: $s;
-  line-height: $l;
-  font-weight: $w;
-  color: $c;
+	font-size: $s;
+	line-height: $l;
+	font-weight: $w;
+	color: $c;
 }
 
 // стилизация радио-переключателей слайдера (например, баннеров)
 
 @mixin banner($i) {
-  .slider__input:nth-of-type(#{$i}):checked ~ .banners__items > .banners__item:nth-child(#{$i}) {
-    display: block;
-  }
+	.slider__input:nth-of-type(#{$i}):checked ~ .banners__items > .banners__item:nth-child(#{$i}) {
+		display: block;
+	}
 }
 
 @mixin toggle($id) {
-  ##{$id}:checked ~ .slider__toggles .slider__toggle[for='#{$id}'] {
-    border: 5px solid #ffffff;
-    border-radius: 50%;
-    position:relative;
-  }
+	##{$id}:checked ~ .slider__toggles .slider__toggle[for='#{$id}'] {
+		border: 5px solid #ffffff;
+		border-radius: 50%;
+		position:relative;
+	}
 }

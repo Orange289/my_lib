@@ -3,31 +3,32 @@ include _global_vars
 mixin head(array)
 	meta(charset='UTF-8')
 	title!=array.title_inner
-	meta(name="viewport", content="width=device-width")
+	meta(name='viewport', content='width=device-width')
 	if production
-		meta(name="SKYPE_TOOLBAR", content="SKYPE_TOOLBAR_PARSER_COMPATIBLE")
-		meta(name="apple-mobile-web-app-capable", content="yes")
-		meta(name="format-detection", content="telephone=no")
-		link(type="image/x-icon", rel="shortcut icon", href="favicon.ico")
-		link(rel="shortcut icon", href="favicon.ico", type="image/x-icon")
-		link(rel="apple-touch-icon", href="apple-touch-icon.png")
-		link(rel="apple-touch-icon", sizes="57x57", href="apple-touch-icon-57x57.png")
-		link(rel="apple-touch-icon", sizes="72x72", href="apple-touch-icon-72x72.png")
-		link(rel="apple-touch-icon", sizes="76x76", href="apple-touch-icon-76x76.png")
-		link(rel="apple-touch-icon", sizes="114x114", href="apple-touch-icon-114x114.png")
-		link(rel="apple-touch-icon", sizes="120x120", href="apple-touch-icon-120x120.png")
-		link(rel="apple-touch-icon", sizes="144x144", href="apple-touch-icon-144x144.png")
-		link(rel="apple-touch-icon", sizes="152x152", href="apple-touch-icon-152x152.png")
-	link(rel="stylesheet" media="all" href="styles/main_global.css")
+		meta(name='SKYPE_TOOLBAR', content='SKYPE_TOOLBAR_PARSER_COMPATIBLE')
+		meta(name='apple-mobile-web-app-capable', content='yes')
+		meta(name='format-detection', content='telephone=no')
+		link(type='image/x-icon', rel='shortcut icon', href='favicon.ico')
+		link(rel='shortcut icon', href='favicon.ico', type='image/x-icon')
+		link(rel='apple-touch-icon', href='apple-touch-icon.png')
+		link(rel='apple-touch-icon', sizes='57x57', href='apple-touch-icon-57x57.png')
+		link(rel='apple-touch-icon', sizes='72x72', href='apple-touch-icon-72x72.png')
+		link(rel='apple-touch-icon', sizes='76x76', href='apple-touch-icon-76x76.png')
+		link(rel='apple-touch-icon', sizes='114x114', href='apple-touch-icon-114x114.png')
+		link(rel='apple-touch-icon', sizes='120x120', href='apple-touch-icon-120x120.png')
+		link(rel='apple-touch-icon', sizes='144x144', href='apple-touch-icon-144x144.png')
+		link(rel='apple-touch-icon', sizes='152x152', href='apple-touch-icon-152x152.png')
+	script(src='js/font-loader.js')
+	link(rel='stylesheet' media='all' href='styles/main_global.css')
 
 mixin scripts
 	if jQuery
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="js/jquery-1.11.1.min.js"><\/script>')</script>
+		<script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+		<script>window.jQuery || document.write('<script src='js/jquery-1.11.1.min.js'><\/script>')</script>
 	if jQueryUI
-		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-		<script>window.jQuery.ui || document.write('<script src="js/jquery-ui.min.js"><\/script>')</script>
-	script(src="js/all.js")
+		<script src='//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js'></script>
+		<script>window.jQuery.ui || document.write('<script src='js/jquery-ui.min.js'><\/script>')</script>
+	script(src='js/all.js')
 	script(src='js/main.js')
 
 mixin form_element(config)
@@ -91,89 +92,89 @@ mixin breadcrumbs(array,add_class)
 				if (index == array.length - 1)
 					a.breadcrumbs_link.current_mod=crumb
 				else
-					a.breadcrumbs_link(href="#")=crumb
+					a.breadcrumbs_link(href='#')=crumb
 
 mixin main_menu(menuArray,elem)
 	ul.menu_main
 		each item in menuArray.items
 			if item.active
 				li.menu__item.menu__item_active
-					a.menu__link(href="#{item.link}" class="#{elem}") #{item.title}
+					a.menu__link(href='#{item.link}' class='#{elem}') #{item.title}
 			else
 				li.menu__item
-					a.menu__link(href="#{item.link}" class="#{elem}") #{item.title}
+					a.menu__link(href='#{item.link}' class='#{elem}') #{item.title}
 
 mixin social(items,mod)
-	ul.social_list(class="#{mod}")
+	ul.social_list(class='#{mod}')
 		each item in items
-			li.social_item(class="#{mod}")
-				a.social_link(href="#" class="#{item}_mod #{mod}") #{item}
+			li.social_item(class='#{mod}')
+				a.social_link(href='#' class='#{item}_mod #{mod}') #{item}
 
 mixin icon(name,mod)
 	- mod = mod || ''
-	svg(class="icon icon-" + name + ' ' + mod)
-		use(xlink:href="i/sprite/sprite.svg#" + name)
+	svg(class='icon icon-' + name + ' ' + mod)
+		use(xlink:href='i/sprite/sprite.svg#' + name)
 
 mixin pagination(config)
 	- config.mod = config.mod || ''
 	- config.active = config.active || 1
 	.pag_block(class='#{config.mod}')
-		ul.pag_list(class="#{config.mod}")
+		ul.pag_list(class='#{config.mod}')
 			if config.arrows
-				li.pag_item.prev_mod(class="#{config.mod}")
-					a.pag_link.prev_mod(href="#" class="#{config.mod}")
+				li.pag_item.prev_mod(class='#{config.mod}')
+					a.pag_link.prev_mod(href='#' class='#{config.mod}')
 			- var i = 1;
 			while i <= config.pages
 				if i == config.pages - 1
-					li.pag_item(class="#{config.mod}")
-						a.pag_link.dots_mod(class="#{config.mod}") &hellip;
-					li.pag_item(class="#{config.mod}")
-						a.pag_link(href="#" title="#{i}" class="#{config.mod}") #{i}
+					li.pag_item(class='#{config.mod}')
+						a.pag_link.dots_mod(class='#{config.mod}') &hellip;
+					li.pag_item(class='#{config.mod}')
+						a.pag_link(href='#' title='#{i}' class='#{config.mod}') #{i}
 				else if i == config.active
-					li.pag_item(class="#{config.mod}")
-						a.pag_link.active_mod(title="#{i}" class="#{config.mod}") #{i}
+					li.pag_item(class='#{config.mod}')
+						a.pag_link.active_mod(title='#{i}' class='#{config.mod}') #{i}
 				else
-					li.pag_item(class="#{config.mod}")
-						a.pag_link(href="#" title="#{i}" class="#{config.mod}") #{i}
+					li.pag_item(class='#{config.mod}')
+						a.pag_link(href='#' title='#{i}' class='#{config.mod}') #{i}
 				-i++
 			if config.arrows
 				li.pag_item.next_mod
-					a.pag_link.next_mod(href="#" class="#{config.mod}")
+					a.pag_link.next_mod(href='#' class='#{config.mod}')
 
 mixin pagination_2(config)
 	- config.mod = config.mod || ''
 	- config.active = config.active || 1
 	.pag_block(class='#{config.mod}')
-		ul.pag_list(class="#{config.mod}")
+		ul.pag_list(class='#{config.mod}')
 			if config.arrows
-				li.pag_item.prev_mod(class="#{config.mod}")
-					a.pag_link.prev_mod(href="#" class="#{config.mod}")
+				li.pag_item.prev_mod(class='#{config.mod}')
+					a.pag_link.prev_mod(href='#' class='#{config.mod}')
 			each page, index in config.pages
 				if index == config.pages.length - 1
-					li.pag_item(class="#{config.mod}")
-						a.pag_link.dots_mod(href="#" class="#{config.mod}") &hellip;
-					li.pag_item(class="#{config.mod}")
-						a.pag_link(href="#" title="#{i}" class="#{config.mod}") #{page}
+					li.pag_item(class='#{config.mod}')
+						a.pag_link.dots_mod(href='#' class='#{config.mod}') &hellip;
+					li.pag_item(class='#{config.mod}')
+						a.pag_link(href='#' title='#{i}' class='#{config.mod}') #{page}
 				else
-					li.pag_item(class="#{config.mod}")
-						a.pag_link(href="#" title="#{i}" class="#{config.mod}") #{page}
+					li.pag_item(class='#{config.mod}')
+						a.pag_link(href='#' title='#{i}' class='#{config.mod}') #{page}
 			if config.arrows
 				li.pag_item.next_mod
-					a.pag_link.next_mod(href="#" class="#{config.mod}")
+					a.pag_link.next_mod(href='#' class='#{config.mod}')
 
 mixin list(array,mod)
-	ul(class="#{mod}_list")
+	ul(class='#{mod}_list')
 		each item in array
-			li(class="#{mod}_item")= item
+			li(class='#{mod}_item')= item
 
 mixin span_list(array,mod)
-	ul(class="#{mod}_list")
+	ul(class='#{mod}_list')
 		each item in array
-			li(class="#{mod}_item")
-				span(class="#{mod}_text")= item
+			li(class='#{mod}_item')
+				span(class='#{mod}_text')= item
 
 mixin link_list(array,mod,elem)
-	ul(class="#{mod}")
+	ul(class='#{mod}')
 		each item in array
-			li(class="#{mod}__item")
-				a(class="#{mod}__link #{elem}" href="#{item.link}")= item
+			li(class='#{mod}__item')
+				a(class='#{mod}__link #{elem}' href='#{item.link}')= item

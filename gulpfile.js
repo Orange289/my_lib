@@ -5,6 +5,7 @@ var gulp = require('gulp'),
 		rimraf = require('rimraf'),
 		jade = require('gulp-jade'),
 		sass = require('gulp-sass'),
+		cssfont64 = require('gulp-cssfont64'),
 		prefixer = require('gulp-autoprefixer'),
 		plumber = require('gulp-plumber'),
 
@@ -48,17 +49,17 @@ var path = {
 		sassEntry: 'src/css/base.scss',
 		img: 'src/img/**/*.*',
 		svg: 'src/img/icons/*.svg',
-		fonts: 'src/fonts/**/*.*'
+		fonts: 'src/fonts/*.{woff,woff2}*'
 	},
 	watch: { //за изменением каких файлов наблюдать
-		jade: 'src/jade/*.jade',
+		jade: 'src/jade/',
 		js: 'src/js/**/*.js',
 		sass: 'src/css/**/*.scss',
 		sassEntry: 'src/css/base.scss',
 		libs: 'src/css/libs/*.css',
 		img: 'src/img/**/*.*',
 		svg: 'src/img/icons/*.svg',
-		fonts: 'src/fonts/**/*.*'
+		fonts: 'src/fonts/*.{woff,woff2}*'
 	},
 	clean: './build'
 };
@@ -75,19 +76,12 @@ var config = {
 
 //Compiling
 
-gulp.task('jade', function () {
-	gulp.src([path.src.jade + '/*.jade', '!' + path.src.jade + '/_*.jade'])
+gulp.task('jade:build', function () {
+	gulp.src([path.src.jade + '*.jade', '!' + path.src.jade + '_*.jade'])
 		.pipe(plumber())
 		.pipe(jade({pretty: true}))
 		.pipe(gulp.dest(path.build.html))
 		.pipe(browserSync.stream());
-});
-
-gulp.task('html:build', function () {
-    gulp.src(path.src.html) //Выберем файлы по нужному пути
-        .pipe(rigger()) //Прогоним через rigger
-        .pipe(gulp.dest(path.build.html)) //Выплюнем их в папку build
-				.pipe(browserSync.stream());
 });
 
 gulp.task('js:build', function () {
@@ -141,11 +135,13 @@ gulp.task('svgsprite', function() {
 
 gulp.task('fonts:build', function() {
     gulp.src(path.src.fonts)
-        .pipe(gulp.dest(path.build.fonts))
+		.pipe(cssfont64())
+		.pipe(gulp.dest(path.build.fonts))
+		.pipe(browserSync.stream());
 });
 
 gulp.task('build', [
-    'html:build',
+    'jade:build',
     'js:build',
     'style:build',
     'fonts:build',
@@ -155,7 +151,7 @@ gulp.task('build', [
 
 gulp.task('watch', function(){
     watch([path.watch.jade], function(event, cb) {
-        gulp.start('html:build');
+        gulp.start('jade:build');
     });
     watch([path.watch.sass], function(event, cb) {
         gulp.start('style:build');
