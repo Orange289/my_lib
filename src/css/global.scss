@@ -1,18 +1,5 @@
 //global styles
 
-@font-face {
-	@include font-setup($font-fam, $font-1-local, $font-1-url1, $font-1-url2);
-	font-weight: 300;
-}
-@font-face {
-	@include font-setup($font-fam, $font-2-local, $font-2-url1, $font-2-url2);
-	font-weight: 500;
-}
-@font-face {
-	@include font-setup($font-fam, $font-3-local, $font-3-url1, $font-3-url2);
-	font-weight: 700;
-}
-
 body {
 	font-family: 'Roboto', 'Arial', sans-serif;
 	@include font-param(14px, 17px, 300);
