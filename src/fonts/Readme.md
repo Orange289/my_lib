@@ -1,0 +1,1 @@
+fonts (.woff & .woff2)
