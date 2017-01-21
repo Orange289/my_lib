@@ -29,7 +29,7 @@ mixin scripts
 	if jQueryUI
 		<script src='//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js'></script>
 		<script>window.jQuery.ui || document.write('<script src='js/jquery-ui.min.js'><\/script>')</script>
-	script(src='js/all.js')
+	script(src='js/chosen.jquery.js')
 	script(src='js/main.js')
 
 mixin form_element(config)
@@ -179,3 +179,12 @@ mixin link_list(array,mod,elem)
 		each item in array
 			li(class='#{mod}__item')
 				a(class='#{mod}__link #{elem}' href='#{item.link}')= item
+
+mixin tabs(array)
+	each item in array
+		if item.check == 1
+			input(type='radio', class='#{item.class_r}', name='#{item.name}', id='#{item.id}' checked)
+			label(for='#{item.id}' class='#{item.class_l}') #{item.label}
+		else
+			input(type='radio', class='#{item.class_r}', name='#{item.name}', id='#{item.id}')
+			label(for='#{item.id}' class='#{item.class_l}') #{item.label}
