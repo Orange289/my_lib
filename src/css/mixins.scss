@@ -19,7 +19,7 @@
 	url($u2) format('woff2');
 }
 
-@mixin font-param($s, $l, $w, $c: #000000) {
+@mixin font-param($s, $l, $w, $c: $graytext) {
 	font-size: $s;
 	line-height: $l;
 	font-weight: $w;
@@ -40,4 +40,30 @@
 		border-radius: 50%;
 		position:relative;
 	}
+}
+
+// маленький кружок с цифрой
+
+@mixin circle($content, $l, $t) {
+	content: $content;
+	position: absolute;
+	top: $t;
+	left: $l;
+	font-family: 'vwheadoffice-bold', sans-serif;
+	@include font-param(8px, 12px, 700, $white);
+	text-align: center;
+	@include size(13px);
+	background-color: $blue;
+	border-radius: 50%;
+}
+
+// отметка шкалы
+
+@mixin dash($l:2px) {
+	content: '';
+	position: absolute;
+	top: -2px;
+	left: $l;
+	@include size(1px, 8px);
+	background-color: #bdc3c6;
 }

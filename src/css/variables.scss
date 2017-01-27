@@ -1,15 +1,37 @@
-// $font-fam: 'Roboto';
-//
-// $font-1-local: 'Roboto Light';
-// $font-1-url1: '../fonts/roboto-light.woff';
-// $font-1-url2: '../fonts/roboto-light.woff2';
-//
-// $font-2-local: 'Roboto Medium';
-// $font-2-url1: '../fonts/roboto-medium.woff';
-// $font-2-url2: '../fonts/roboto-medium.woff2';
-//
-// $font-3-local: 'Roboto Bold';
-// $font-3-url1: '../fonts/roboto-bold.woff';
-// $font-3-url2: '../fonts/roboto-bold.woff2';
-//
-// $wide-widths: 'min-width: 768px';
+$wide-widths: 'min-width: 768px';
+
+//colors
+
+$white: #ffffff;
+$black: #000000;
+
+$blue: #00b1eb;
+$yellow: #f6ca00;
+
+$graytext: #2f3538;
+$bg1: #f1f5f6;
+$bg2: #e3ebec;
+
+//font-setup
+
+$font-fam1: 'vwheadoffice-regular';
+$font-fam2: 'vwheadoffice-bold';
+$font-fam3: 'vwtextoffice-regular';
+$font-fam4: 'vwtextoffice-bold';
+
+$font-1-local: 'vwheadoffice-regular';
+$font-2-local: 'vwheadoffice-bold';
+$font-3-local: 'vwtextoffice-regular';
+$font-4-local: 'vwtextoffice-bold';
+
+$font-1-url1: '../fonts/vwheadoffice-regular.woff';
+$font-1-url2: '../fonts/vwheadoffice-regular.woff2';
+
+$font-2-url1: '../fonts/vwheadoffice-bold.woff';
+$font-2-url2: '../fonts/vwheadoffice-bold.woff2';
+
+$font-3-url1:  '../fonts/vwtextoffice-regular.woff';
+$font-3-url2: '../fonts/vwtextoffice-regular.woff2';
+
+$font-4-url1: '../fonts/vwtextoffice-bold.woff';
+$font-4-url2: '../fonts/vwtextoffice-bold.woff2';

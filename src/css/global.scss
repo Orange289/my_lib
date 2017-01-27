@@ -1,3 +1,22 @@
+//fonts
+
+@font-face {
+	@include font-setup($font-fam1, $font-1-local, $font-1-url1, $font-1-url2);
+  font-weight: 400;
+}
+@font-face {
+	@include font-setup($font-fam2, $font-2-local, $font-2-url1, $font-2-url2);
+  font-weight: 700;
+}
+@font-face {
+	@include font-setup($font-fam3, $font-3-local, $font-3-url1, $font-3-url2);
+  font-weight: 400;
+}
+@font-face {
+	@include font-setup($font-fam4, $font-4-local, $font-4-url1, $font-4-url2);
+  font-weight: 700;
+}
+
 //global styles
 
 body {

@@ -5,7 +5,6 @@ var gulp = require('gulp'),
 		rimraf = require('rimraf'),
 		jade = require('gulp-jade'),
 		sass = require('gulp-sass'),
-		cssfont64 = require('gulp-cssfont64'),
 		prefixer = require('gulp-autoprefixer'),
 		plumber = require('gulp-plumber'),
 
@@ -44,7 +43,7 @@ var path = {
 	},
 	src: { //Пути откуда брать исходники
 		jade: 'src/jade/',
-		js: 'src/js/*.js',
+		js: 'src/js/**/*.js',
 		sass: 'src/css/**/*.scss',
 		sassEntry: 'src/css/base.scss',
 		img: 'src/img/**/*.*',
@@ -86,9 +85,7 @@ gulp.task('jade:build', function () {
 
 gulp.task('js:build', function () {
     gulp.src(path.src.js) //Найдем main файл
-				.pipe(plumber())
-        .pipe(rigger()) //Прогоним через rigger
-        .pipe(uglify()) //Сожмем наш js
+		.pipe(plumber())
         .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
 				.pipe(browserSync.stream());
 });
@@ -105,6 +102,17 @@ gulp.task('style:build', function () {
 				.pipe(browserSync.stream());
 });
 
+//svg sprite
+
+gulp.task('svgsprite', function() {
+	return gulp.src(path.src.svg)
+		.pipe(svgstore({
+
+		}))
+		.pipe(rename('sprite.svg'))
+		.pipe(gulp.dest(path.build.img));
+});
+
 gulp.task('image:build', function() {
 	gulp.src(path.src.img)
 			.pipe(plumber())
@@ -119,23 +127,11 @@ gulp.task('image:build', function() {
 			.pipe(browserSync.stream());
 })
 
-//svg sprite
-
-gulp.task('svgsprite', function() {
-	return gulp.src(path.src.svg)
-		.pipe(svgstore({
-			inlineSvg: true
-		}))
-		.pipe(svgmin())
-		.pipe(rename('sprite.svg'))
-		.pipe(gulp.dest(path.build.img));
-});
 
 //
 
 gulp.task('fonts:build', function() {
     gulp.src(path.src.fonts)
-		.pipe(cssfont64())
 		.pipe(gulp.dest(path.build.fonts))
 		.pipe(browserSync.stream());
 });
@@ -146,7 +142,7 @@ gulp.task('build', [
     'style:build',
     'fonts:build',
     'image:build',
-		'svgsprite'
+	'svgsprite'
 ]);
 
 gulp.task('watch', function(){
