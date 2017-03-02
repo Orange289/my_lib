@@ -85,13 +85,13 @@ mixin loop_while_sub(counter)
 
 mixin breadcrumbs(array,add_class)
 	- add_class = add_class || ''
-	ul.breadcrumbs_list(class=add_class)
+	ul.breadcrumbs__list(class=add_class)
 		each crumb, index in array
-			li.breadcrumbs_item
+			li.breadcrumbs__item
 				if (index == array.length - 1)
-					a.breadcrumbs_link.current_mod=crumb
+					a.breadcrumbs__link.current=crumb
 				else
-					a.breadcrumbs_link(href='#')=crumb
+					a.breadcrumbs__link(href='#')=crumb
 
 mixin main_menu(menuArray,elem)
 	ul.menu_main
@@ -104,62 +104,62 @@ mixin main_menu(menuArray,elem)
 					a.menu__link(href='#{item.link}' class='#{elem}') #{item.title}
 
 mixin social(items,mod)
-	ul.social_list(class='#{mod}')
+	ul.social__list(class='#{mod}')
 		each item in items
-			li.social_item(class='#{mod}')
-				a.social_link(href='#' class='#{item}_mod #{mod}') #{item}
+			li.social__item(class='#{mod}')
+				a.social__link(href='#' class='#{item}_mod #{mod}') #{item}
 
 mixin icon(name,mod)
 	- mod = mod || ''
-	svg(class='icon icon-' + name + ' ' + mod)
+	svg(class='icon icon_' + name + ' ' + mod)
 		use(xlink:href='i/sprite/sprite.svg#' + name)
 
 mixin pagination(config)
 	- config.mod = config.mod || ''
 	- config.active = config.active || 1
-	.pag_block(class='#{config.mod}')
-		ul.pag_list(class='#{config.mod}')
+	.page__block(class='#{config.mod}')
+		ul.page__list(class='#{config.mod}')
 			if config.arrows
-				li.pag_item.prev_mod(class='#{config.mod}')
-					a.pag_link.prev_mod(href='#' class='#{config.mod}')
+				li.page__item.page__item_prev(class='#{config.mod}')
+					a.page__link.page__link_prev(href='#' class='#{config.mod}')
 			- var i = 1;
 			while i <= config.pages
 				if i == config.pages - 1
-					li.pag_item(class='#{config.mod}')
-						a.pag_link.dots_mod(class='#{config.mod}') &hellip;
-					li.pag_item(class='#{config.mod}')
-						a.pag_link(href='#' title='#{i}' class='#{config.mod}') #{i}
+					li.page__item(class='#{config.mod}')
+						a.page__link.page__link_dots(class='#{config.mod}') &hellip;
+					li.page__item(class='#{config.mod}')
+						a.page__link(href='#' title='#{i}' class='#{config.mod}') #{i}
 				else if i == config.active
-					li.pag_item(class='#{config.mod}')
-						a.pag_link.active_mod(title='#{i}' class='#{config.mod}') #{i}
+					li.page__item(class='#{config.mod}')
+						a.page__link.page__link_active(title='#{i}' class='#{config.mod}') #{i}
 				else
-					li.pag_item(class='#{config.mod}')
-						a.pag_link(href='#' title='#{i}' class='#{config.mod}') #{i}
+					li.page__item(class='#{config.mod}')
+						a.page__link(href='#' title='#{i}' class='#{config.mod}') #{i}
 				-i++
 			if config.arrows
-				li.pag_item.next_mod
-					a.pag_link.next_mod(href='#' class='#{config.mod}')
+				li.page__item.page__item_next
+					a.page__link.page__link_next(href='#' class='#{config.mod}')
 
 mixin pagination_2(config)
 	- config.mod = config.mod || ''
 	- config.active = config.active || 1
-	.pag_block(class='#{config.mod}')
-		ul.pag_list(class='#{config.mod}')
+	.page__block(class='#{config.mod}')
+		ul.page__list(class='#{config.mod}')
 			if config.arrows
-				li.pag_item.prev_mod(class='#{config.mod}')
-					a.pag_link.prev_mod(href='#' class='#{config.mod}')
+				li.page__item.page__item_prev(class='#{config.mod}')
+					a.page__link.page__link_prev(href='#' class='#{config.mod}')
 			each page, index in config.pages
 				if index == config.pages.length - 1
-					li.pag_item(class='#{config.mod}')
-						a.pag_link.dots_mod(href='#' class='#{config.mod}') &hellip;
-					li.pag_item(class='#{config.mod}')
-						a.pag_link(href='#' title='#{i}' class='#{config.mod}') #{page}
+					li.page__item(class='#{config.mod}')
+						a.page__link.page__link_dots(href='#' class='#{config.mod}') &hellip;
+					li.page__item(class='#{config.mod}')
+						a.page__link(href='#' title='#{i}' class='#{config.mod}') #{page}
 				else
-					li.pag_item(class='#{config.mod}')
-						a.pag_link(href='#' title='#{i}' class='#{config.mod}') #{page}
+					li.page__item(class='#{config.mod}')
+						a.page__link(href='#' title='#{i}' class='#{config.mod}') #{page}
 			if config.arrows
-				li.pag_item.next_mod
-					a.pag_link.next_mod(href='#' class='#{config.mod}')
+				li.page__item.page__item_next
+					a.page__link.page__link_next(href='#' class='#{config.mod}')
 
 mixin list(array,mod)
 	ul(class='#{mod}_list')

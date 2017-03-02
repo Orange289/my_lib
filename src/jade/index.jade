@@ -3,8 +3,11 @@ include templates/_global_mixins
 include templates/_global_vars
 include templates/_project_mixins
 include templates/_project_vars
+
 block vars
 	- var array = {body_class:'', layout_mod:'', sub_keywords:'',title_inner:'Title of the page'}
+
 block favicons
 	- var arrayFav = {src_ico:'img/favicon.ico', src_png: 'img/favicon.png', src_apple: 'img/apple-touch-icon.png'}
+
 block content_block

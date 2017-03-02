@@ -127,9 +127,6 @@ gulp.task('image:build', function() {
 			.pipe(browserSync.stream());
 })
 
-
-//
-
 gulp.task('fonts:build', function() {
     gulp.src(path.src.fonts)
 		.pipe(gulp.dest(path.build.fonts))
