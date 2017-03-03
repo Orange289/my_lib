@@ -1,9 +1,11 @@
 @mixin clearfix {
+
 	&::after {
 		content: '';
 		display: table;
 		clear: both;
 	}
+
 }
 
 @mixin size($width, $height: $width) {
@@ -13,10 +15,7 @@
 
 @mixin font-setup($f, $l, $u1, $u2) {
 	font-family: $f;
-	src:
-	local($l),
-	url($u1) format('woff'),
-	url($u2) format('woff2');
+	src: local($l), url($u1) format('woff'), url($u2) format('woff2');
 }
 
 @mixin font-param($s, $l, $w, $c: $graytext) {
@@ -29,17 +28,21 @@
 // стилизация радио-переключателей слайдера (например, баннеров)
 
 @mixin banner($i) {
+
 	.slider__input:nth-of-type(#{$i}):checked ~ .banners__items > .banners__item:nth-child(#{$i}) {
 		display: block;
 	}
+
 }
 
 @mixin toggle($id) {
+
 	##{$id}:checked ~ .slider__toggles .slider__toggle[for='#{$id}'] {
 		border: 5px solid #ffffff;
 		border-radius: 50%;
-		position:relative;
+		position: relative;
 	}
+
 }
 
 // маленький кружок с цифрой

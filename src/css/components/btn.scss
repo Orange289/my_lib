@@ -1,14 +1,14 @@
 .btn {
-  text-align: center;
+	text-align: center;
 	text-decoration: none;
 	border: none;
 	outline: none;
 	cursor: pointer;
 
-  &--disabled {
-	background-color: #dddddd;
-	color: #ffffff;
-	cursor: default;
-  }
+	&--disabled {
+		background-color: #dddddd;
+		color: #ffffff;
+		cursor: default;
+	}
 
 }

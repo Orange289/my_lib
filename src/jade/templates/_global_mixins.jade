@@ -40,10 +40,10 @@ mixin form_element(config)
 	else
 		- config.id = config.id.replace(/\s/g, '_').replace(/[.,:;(){}/?!@#$%&*]/g, '')
 	if config.type === 'text' || config.type === 'password' || config.type === 'email' || config.type === 'tel' || config.type === 'textarea' || config.type === 'select' || config.type === 'file'
-		dl.form__cell(class=config.class_array.block_class_mod)
-			dt.form__label(class=config.class_array.label_mod)
+		.form__cell(class=config.class_array.block_class_mod)
+			.form__label(class=config.class_array.label_mod)
 				label(for=config.id) #{config.title}
-			dd.form__field-wrap(class=config.class_array.class_mod)
+			.form__field-wrap(class=config.class_array.class_mod)
 				if config.type === 'text' && config.active === '0'
 					input.form__text(value=config.value required=config.required type=config.type id=config.id class='#{config.class_array.elem_class} #{config.add_class}' placeholder=config.placeholder disabled)
 					block

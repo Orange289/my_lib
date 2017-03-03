@@ -1,11 +1,11 @@
 //CSS-import
 
-@import 'normalize.scss';
 @import 'variables';
 @import 'mixins';
 @import 'global';
 
 
+@import 'normalize.css';
 @import 'libs/jquery-ui.css';
 @import 'libs/kdxvw-customscroll.css';
 @import 'libs/kdxvw-chosen.css';
