@@ -3,7 +3,7 @@
 // plugins for development
 var gulp = require('gulp'),
 		rimraf = require('rimraf'),
-		jade = require('gulp-jade'),
+		pug = require('gulp-pug'),
 		sass = require('gulp-sass'),
 		prefixer = require('gulp-autoprefixer'),
 		plumber = require('gulp-plumber'),
@@ -14,7 +14,7 @@ var gulp = require('gulp'),
 		imagemin = require('gulp-imagemin'),
 		pngquant = require('imagemin-pngquant'),
 		sassGlob = require('gulp-sass-glob'),
-		cssimport = require("gulp-cssimport"),
+		cssimport = require('gulp-cssimport'),
 
 //plugins for svg
 		svgSprite = require('gulp-svg-sprite'),
@@ -29,7 +29,10 @@ var gulp = require('gulp'),
 		sourcemaps = require('gulp-sourcemaps'),
 		rigger = require('gulp-rigger'),
 		browserSync = require('browser-sync'),
+		browserify = require('browserify'),
+		source = require('vinyl-source-stream'),
 		reload = browserSync.reload;
+
 
 //paths
 
@@ -42,7 +45,7 @@ var path = {
 		fonts: 'build/fonts/'
 	},
 	src: { //Пути откуда брать исходники
-		jade: 'src/jade/',
+		pug: 'src/pug/',
 		js: 'src/js/**/*.js',
 		sass: 'src/css/**/*.scss',
 		sassEntry: 'src/css/base.scss',
@@ -51,7 +54,7 @@ var path = {
 		fonts: 'src/fonts/*.{woff,woff2}*'
 	},
 	watch: { //за изменением каких файлов наблюдать
-		jade: 'src/jade/',
+		pug: 'src/pug/',
 		js: 'src/js/**/*.js',
 		sass: 'src/css/**/*.scss',
 		sassEntry: 'src/css/base.scss',
@@ -75,10 +78,10 @@ var config = {
 
 //Compiling
 
-gulp.task('jade:build', function () {
-	gulp.src([path.src.jade + '*.jade', '!' + path.src.jade + '_*.jade'])
+gulp.task('pug:build', function () {
+	gulp.src([path.src.pug + '*.pug', '!' + path.src.pug + '_*.pug'])
 		.pipe(plumber())
-		.pipe(jade({pretty: true}))
+		.pipe(pug({pretty: true}))
 		.pipe(gulp.dest(path.build.html))
 		.pipe(browserSync.stream());
 });
@@ -88,6 +91,13 @@ gulp.task('js:build', function () {
 		.pipe(plumber())
         .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
 				.pipe(browserSync.stream());
+});
+
+gulp.task('browserify', function() {
+    return browserify('src/js/libs/kdx-ghostgrid.js')
+	    .bundle()
+		.pipe(source('libs/kdx-ghostgrid.js'))
+        .pipe(gulp.dest(path.build.js));
 });
 
 gulp.task('style:build', function () {
@@ -134,8 +144,9 @@ gulp.task('fonts:build', function() {
 });
 
 gulp.task('build', [
-    'jade:build',
+    'pug:build',
     'js:build',
+	'browserify',
     'style:build',
     'fonts:build',
     'image:build',
@@ -143,8 +154,8 @@ gulp.task('build', [
 ]);
 
 gulp.task('watch', function(){
-    watch([path.watch.jade], function(event, cb) {
-        gulp.start('jade:build');
+    watch([path.watch.pug], function(event, cb) {
+        gulp.start('pug:build');
     });
     watch([path.watch.sass], function(event, cb) {
         gulp.start('style:build');

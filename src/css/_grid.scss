@@ -1,0 +1,194 @@
+// ====================================
+// Fluid Adaptive Multi-Grid With Fixed/Fluid Gaps
+// Version: 1.1.1 (24 Jan 2017)
+// Made in Kodix with love and stuff.
+// ====================================
+
+// grid naming
+$gridcontainer_name: 'gridcontainer';
+$grid_name: 'grid_';
+
+// ======================================
+// Settings
+// ======================================
+$grid-map: (
+  320: (
+    class-prefix: '',
+    min-width: null,
+    max-width: null,
+    container: 100%,
+    columns: 12,
+    gap: 2.7777%
+  ),
+  768: (
+    class-prefix: '_sm',
+    min-width: 768px,
+    max-width: null,
+    container: 100%,
+    columns: 12,
+    gap: 12px
+  ),
+  1281: (
+    class-prefix: '_m',
+    min-width: 1281px,
+    max-width: null,
+    container: 100%,
+    columns: 12,
+    gap: 15px
+  ),
+  1486: (
+    class-prefix: '_l',
+    min-width: 1486px,
+    max-width: null,
+    container: 100%,
+    columns: 12,
+    gap: 18px
+  )
+);
+
+// ======================================
+// Grid function
+// ======================================
+@mixin make-grid($map) {
+
+  // ======================================
+  // Grid settings
+  // ======================================
+  $prefix: map-get($map, class-prefix);
+  $min-width: map-get($map, min-width);
+  $max-width: map-get($map, max-width);
+  $container: map-get($map, container);
+  $columns: map-get($map, columns);
+  $gap: 0px;
+
+  @if map-get($map, gap) % 2 == 0 or unit(map-get($map, gap)) != 'px' {
+    $gap: map-get($map, gap);
+  } @else {
+    $gap: map-get($map, gap) + 1;
+  }
+
+  $column_width: $container/$columns;
+
+  // ======================================
+  // Container
+  // ======================================
+  .#{$gridcontainer_name} {
+    width: if($container == 100%, auto, $container);
+    margin-left: -$gap/2 !important;
+    margin-right: -$gap/2 !important;
+  }
+
+  // ======================================
+  // Grid
+  // ======================================
+  [class^="#{$grid_name}"],
+  [class*=" #{$grid_name}"] {
+    display: inline;
+    float: left;
+    padding-left: $gap/2;
+    padding-right: $gap/2;
+  }
+
+  @for $i from 1 through $columns {
+    .grid#{$prefix}_#{$i} {
+      width: $column_width * $i
+    }
+  }
+  @for $i from 1 to $columns {
+    .prefix#{$prefix}_#{$i} {
+      margin-left: $column_width * $i
+    }
+  }
+  @for $i from 1 to $columns {
+    .suffix#{$prefix}_#{$i} {
+      margin-right: $column_width * $i
+    }
+  }
+  @for $i from 1 to $columns {
+    .push#{$prefix}_#{$i} {
+      left: $column_width * $i
+    }
+  }
+  @for $i from 1 to $columns {
+    .pull#{$prefix}_#{$i} {
+      left: - ($column_width * $i )
+    }
+  }
+
+  .prefix#{$prefix}_0 {
+    margin-left: 0;
+  }
+  .suffix#{$prefix}_0 {
+    margin-right: 0;
+  }
+  .push#{$prefix}_0 {
+    left: 0;
+  }
+  .pull#{$prefix}_0 {
+    left: 0;
+  }
+
+  // ======================================
+  // Reset grid option
+  // ======================================
+  .nogrid#{$prefix} {
+    left: auto;
+    right: auto;
+    display: block;
+    float: none;
+    width: auto;
+    margin: 0;
+    // No padding reset! Container has negative margin still.
+    // padding: 0;
+  }
+}
+
+// ======================================
+// Clear floated elements
+// ======================================
+.#{$gridcontainer_name}:before,
+.#{$gridcontainer_name}:after {
+  content: ' ';
+  display: table;
+  clear: both;
+}
+
+// ======================================
+// Default grid styles
+// ======================================
+.#{$gridcontainer_name} {
+  position: relative;
+}
+
+[class^="#{$grid_name}"],
+[class*=" #{$grid_name}"] {
+  position: relative;
+  min-height: 1px;
+  box-sizing: border-box;
+}
+
+// ======================================
+// Big bada loop
+// ======================================
+@each $label, $map in $grid-map {
+
+  $min-width: map-get($map, min-width);
+  $max-width: map-get($map, max-width);
+  $min-width-str: if($min-width == null, '', ' and (min-width: #{$min-width}) ');
+  $max-width-str: if($max-width == null, '', ' and (max-width: #{$max-width}) ');
+  $media-str: 'only screen' + $min-width-str + $max-width-str;
+
+  @if $min-width or $max-width {
+    // make responsive grid
+    @media #{$media-str} {
+      @include make-grid($map); // One grid, please
+    }
+  } @else {
+    // make default grid
+    @include make-grid($map); // One grid, please
+  }
+}
+
+// ======================================
+// ======================================
+// ======================================

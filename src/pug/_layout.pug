@@ -12,7 +12,10 @@ html(lang='ru')
 	head
 		+ head(array,arrayFav)
 	body(class='#{array.body_class}')
-		+ header
-		main.page_main(class='#{array.layout_mod}')
+		.wrapper
+			.container-fluid
+				.js_ghostGridHolder
+					+ header
+					main.page_main(class='#{array.layout_mod}')
+					block popup
 		+ scripts
-		block popup

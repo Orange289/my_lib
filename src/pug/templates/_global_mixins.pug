@@ -1,6 +1,3 @@
-include _global_vars
-include _project_vars
-
 mixin head(array,arrayFav)
 	meta(charset='UTF-8')
 	title!=array.title_inner
@@ -15,14 +12,15 @@ mixin head(array,arrayFav)
 
 
 mixin scripts
-	script(src="js/jquery-1.11.1.min.js")
-	script(src="js/jquery-ui.min.js")
-	script(src='js/all/modernizr.js')
-	script(src='js/kdxvw-customscroll.js')
-	script(src='js/kdxvw-chosen.js')
-	script(src='js/kdxvw-maskedinput.min.js')
-	script(src='js/kdxvw-form.js')
-	script(src='js/all/svg4everybody.min.js')
+	script(src='js/libs/jquery-1.11.1.min.js')
+	script(src='js/libs/jquery-ui.min.js')
+	script(src='js/libs/modernizr.js')
+	script(src='js/libs/kdxvw-customscroll.js')
+	script(src='js/libs/kdxvw-chosen.js')
+	script(src='js/libs/kdxvw-maskedinput.min.js')
+	script(src='js/libs/kdxvw-form.js')
+	script(src='js/libs/svg4everybody.min.js')
+	script(src='js/libs/kdx-ghostgrid.js')
 	script svg4everybody();
 	script(src='js/main.js')
 
